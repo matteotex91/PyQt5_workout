@@ -28,7 +28,7 @@ class MainWindowExample5(QMainWindow):
 
 
 # Subclass QMainWindow to customize your application's main window
-class MainWindow(QMainWindow):
+class MainWindowBasicDashboard(QMainWindow):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("My App")
@@ -81,6 +81,6 @@ class MainWindow(QMainWindow):
 
 
 app = QApplication(sys.argv)
-window = MainWindow()
+window = MainWindowBasicDashboard()
 window.show()
 app.exec_()
