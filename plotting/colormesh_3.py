@@ -15,8 +15,8 @@ cw = QtWidgets.QWidget()
 win.setCentralWidget(cw)
 l = QtWidgets.QGridLayout()
 cw.setLayout(l)
-imv1 = pg.PlotWidget()
-imv2 = pg.PlotWidget()
+imv1 = pg.GraphicsView()
+imv2 = pg.GraphicsView()
 l.addWidget(imv1, 0, 0)
 l.addWidget(imv2, 1, 0)
 win.show()
@@ -35,10 +35,7 @@ imv2.addItem(plot_curve)
 def update():
     global roi, gaussian2d, xv, yv, plot_curve
     print("stop here")
-    d2, coords = roi.getArrayRegion(
-        gaussian2d, imv1.plotItem.items[1], axes=(1, 0), returnMappedCoords=True
-    )
-    # d2 = roi.getArrayRegion(gaussian2d, imv1.plotItem.items[1], axes=(1, 0))
+    d2 = roi.getArrayRegion(gaussian2d, imv1.currentItem)
     plot_curve.setData(d2)
     # imv2.addItem(pg.PlotCurveItem(d2))
 
