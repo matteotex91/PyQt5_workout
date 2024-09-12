@@ -35,10 +35,11 @@ imv2.addItem(plot_curve)
 def update():
     global roi, gaussian2d, xv, yv, plot_curve
     print("stop here")
-    d2, coords = roi.getArrayRegion(
-        gaussian2d, imv1.plotItem.items[1], axes=(1, 0), returnMappedCoords=True
+    d2 = roi.getArrayRegion(gaussian2d, imv1.plotItem.items[1], axes=(1, 0))
+    d2 = roi.getArraySlice(
+        gaussian2d,
+        imv1.plotItem.items[1],
     )
-    # d2 = roi.getArrayRegion(gaussian2d, imv1.plotItem.items[1], axes=(1, 0))
     plot_curve.setData(d2)
     # imv2.addItem(pg.PlotCurveItem(d2))
 

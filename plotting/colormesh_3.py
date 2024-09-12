@@ -15,14 +15,12 @@ cw = QtWidgets.QWidget()
 win.setCentralWidget(cw)
 l = QtWidgets.QGridLayout()
 cw.setLayout(l)
-imv1 = pg.GraphicsView()
-imv2 = pg.GraphicsView()
+imv1 = pg.PlotWidget()
+imv2 = pg.PlotWidget()
 l.addWidget(imv1, 0, 0)
 l.addWidget(imv2, 1, 0)
 win.show()
 
-roi = pg.LineSegmentROI([[-1, -1], [1, 1]], pen="r")
-imv1.addItem(roi)
 
 x = np.linspace(-2, 2, 200)
 gaussian = np.exp(-np.power(0.5 * (x[:-1] + x[1:]), 2))
@@ -30,12 +28,17 @@ gaussian2d = np.tensordot(gaussian, gaussian, axes=0)
 xv, yv = np.meshgrid(x, x)
 plot_curve = pg.PlotCurveItem()
 imv2.addItem(plot_curve)
+pcolormesh_item = pg.PColorMeshItem(xv, yv, gaussian2d)
+imv1.addItem(pcolormesh_item)
+roi = pg.LineSegmentROI([[-2, -2], [2, 2]], pen="r", parent=pcolormesh_item)
+imv1.addItem(roi)
 
 
 def update():
     global roi, gaussian2d, xv, yv, plot_curve
     print("stop here")
-    d2 = roi.getArrayRegion(gaussian2d, imv1.currentItem)
+    # d2 = roi.getArrayRegion(gaussian2d, imv1.currentItem)
+    d2 = roi.getArraySlice(gaussian2d, imv1.currentItem)
     plot_curve.setData(d2)
     # imv2.addItem(pg.PlotCurveItem(d2))
 
@@ -44,7 +47,6 @@ roi.sigRegionChanged.connect(update)
 
 
 ## Display the data
-imv1.addItem(pg.PColorMeshItem(xv, yv, gaussian2d))
 
 
 update()
